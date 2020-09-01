@@ -28,3 +28,9 @@ Add the coolbits option there and now looks like this:
 - To reload without logging out `. ~/.zshrc`
 
 Run the script like `. ./gpu-temp.sh` to keep the envirnment variable value
+
+Run `crontab -e` to add these cron jobs:
+`    * * * * * /home/ubuntolog/github/video-fan-control/gpu-temp.sh 2>&1`
+`    * * * * * sleep 15;/home/ubuntolog/github/video-fan-control/gpu-temp.sh 2>&1`
+`    * * * * * sleep 30;/home/ubuntolog/github/video-fan-control/gpu-temp.sh 2>&1`
+`    * * * * * sleep 45;/home/ubuntolog/github/video-fan-control/gpu-temp.sh 2>&1`

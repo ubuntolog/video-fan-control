@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+export DISPLAY=:1
 smiOut=$(nvidia-smi -q -d temperature)
 
 gpuTemp="${smiOut#*GPU Current Temp}"
@@ -8,16 +9,14 @@ gpuTemp="${gpuTemp%%GPU Shutdown Temp*}"
 gpuTemp="${gpuTemp%%C*}"
 gpuTemp=$(echo $gpuTemp | sed -e 's/^[ \t]*//')
 
-
-#echo "$smiOut"
-echo "Current GPU temperature: $gpuTemp"
-echo "Previously saved value: $GPU_CUR_TEMP"
+#echo "Current GPU temperature: $gpuTemp"
+#echo "Previously saved value: $GPU_CUR_TEMP"
 
 
 gpuTemp=$(($gpuTemp + 0))
 
-if [[ $gpuTemp != $GPU_CUR_TEMP ]]; then
-	echo "The GPU temperature has changed. The fans have to be adjusted"
+#if [[ $gpuTemp != $GPU_CUR_TEMP ]]; then
+#	echo "The GPU temperature has changed. The fans have to be adjusted"
 
 	if [[ $gpuTemp -gt 0 && $gpuTemp -lt 25 ]]; then
 		nvidia-settings -a '[gpu:0]/GPUFanControlState=1' -a '[fan:0]/GPUTargetFanSpeed=5'
@@ -58,7 +57,7 @@ if [[ $gpuTemp != $GPU_CUR_TEMP ]]; then
 		nvidia-settings -a '[gpu:0]/GPUFanControlState=1' -a '[fan:0]/GPUTargetFanSpeed=99'
 		nvidia-settings -a '[gpu:0]/GPUFanControlState=1' -a '[fan:1]/GPUTargetFanSpeed=99'
 	fi
-fi
+#fi
 
-export GPU_CUR_TEMP=$(($gpuTemp))
-echo "Updated environment variable: $GPU_CUR_TEMP"
+#export GPU_CUR_TEMP=$(($gpuTemp))
+#echo "Updated environment variable: $GPU_CUR_TEMP"
